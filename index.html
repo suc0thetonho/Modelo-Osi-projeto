@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSI Flow - Simulador de Redes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style/reset.css">
+    <link rel="stylesheet" href="style/variables.css">
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/header.css">
+    <link rel="stylesheet" href="style/main.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-left">
+            <div class="header-logo">
+                <span class="logo-icon">⚡</span>
+                <div>
+                    <h1 class="logo-title">OSI Flow</h1>
+                    <p class="logo-subtitle">Simulador de Redes · Modelo OSI</p>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">IFPE · Professor Gleidson</span>
+            </div>
+            <div class="header-user">
+                <span class="user-icon">👤</span>
+                <span class="user-name">Antonio Carlos</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="panel input-panel">
+            <div class="panel-header">
+                <span class="panel-icon">▶</span>
+                <h2 class="panel-title">Entrada de Dados</h2>
+                <span class="panel-status" id="protocolStatus">Aguardando...</span>
+            </div>
+
+            <div class="panel-body">
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <span class="input-prompt">></span>
+                        <input type="text" id="textInput" class="input-field"
+                            placeholder="Digite uma URL, e-mail ou mensagem...">
+                    </div>
+                    <div class="input-actions">
+                        <button class="btn btn-primary" id="requestBtn">📤 Enviar</button>
+                        <label class="btn btn-secondary" for="fileInput">
+                            📎 Arquivo
+                            <input type="file" id="fileInput" style="display:none">
+                        </label>
+                    </div>
+                </div>
+
+                <div id="emailFields" class="email-fields" style="display:none;">
+                    <div class="email-field">
+                        <label class="field-label">Assunto</label>
+                        <input type="text" id="emailSubject" class="input-field" placeholder="Assunto do e-mail...">
+                    </div>
+                    <div class="email-field">
+                        <label class="field-label">Corpo</label>
+                        <textarea id="emailBody" class="input-field" rows="3"
+                            placeholder="Corpo da mensagem..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="protocol-display" id="protocolDisplay">
+            <span class="protocol-label">Protocolo</span>
+            <span class="protocol-name" id="protocolName">—</span>
+        </div>
+
+        <div class="layers-container" id="layersContainer">
+
+            <div class="layer-card layer-7" id="layer7" style="display:none;">
+                <div class="layer-header">
+                    <div class="layer-badge">
+                        <span class="layer-number">7</span>
+                        <span class="layer-title">Aplicação</span>
+                    </div>
+                    <div class="layer-status">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">ATIVO</span>
+                    </div>
+                </div>
+                <div class="layer-body" id="layer7Body">
+                </div>
+            </div>
+
+            <div class="layer-card layer-6" id="layer6" style="display:none;">
+                <div class="layer-header">
+                    <div class="layer-badge">
+                        <span class="layer-number">6</span>
+                        <span class="layer-title">Apresentação</span>
+                    </div>
+                    <div class="layer-status">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">JWT ATIVO</span>
+                    </div>
+                </div>
+                <div class="layer-body" id="layer6Body">
+                </div>
+            </div>
+
+            <div class="layer-card layer-5" id="layer5" style="display:none;">
+                <div class="layer-header">
+                    <div class="layer-badge">
+                        <span class="layer-number">5</span>
+                        <span class="layer-title">Sessão</span>
+                    </div>
+                    <div class="layer-status">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">ATIVA</span>
+                    </div>
+                </div>
+                <div class="layer-body" id="layer5Body">
+                </div>
+            </div>
+
+            <!-- Camada 4 - Transporte -->
+            <div class="layer-card layer-4" id="layer4" style="display:none;">
+                <div class="layer-header">
+                    <div class="layer-badge">
+                        <span class="layer-number">4</span>
+                        <span class="layer-title">Transporte</span>
+                    </div>
+                    <div class="layer-status">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">TCP ATIVO</span>
+                    </div>
+                </div>
+                <div class="layer-body" id="layer4Body">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Camada 3 - Rede -->
+            <div class="layer-card layer-3" id="layer3" style="display:none;">
+                <div class="layer-header">
+                    <div class="layer-badge">
+                        <span class="layer-number">3</span>
+                        <span class="layer-title">Rede</span>
+                    </div>
+                    <div class="layer-status">
+                        <span class="status-dot active"></span>
+                        <span class="status-text">ROTEANDO</span>
+                    </div>
+                </div>
+                <div class="layer-body" id="layer3Body">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flow-indicator" id="flowIndicator" style="display:none;">
+            <span class="flow-text">⬇ Encapsulando dados... ⬇</span>
+            <div class="flow-progress">
+                <div class="flow-bar" id="flowBar" style="width:0%"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <p>⚡ OSI Flow v2.0 · Feito com ❤️ · IFPE - Redes de Computadores</p>
+    </footer>
+
+    <script type="module" src="scripts/osi.js"></script>
+</body>
+
+</html>
