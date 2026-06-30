@@ -273,7 +273,6 @@ function desenharCanvas(resultado, origemId, destinoId, pontosArray) {
             ctx.arc(pos.cx, pos.cy, radius, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
-            // X vermelho pequeno
             ctx.strokeStyle = '#ef4444';
             ctx.lineWidth = 1.5;
             const s = 3;

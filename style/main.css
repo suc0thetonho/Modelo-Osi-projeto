@@ -195,6 +195,14 @@
     border-left-color: var(--layer-3-color);
 }
 
+.layer-2 {
+    border-left-color: var(--layer-2-color);
+}
+
+.layer-1 {
+    border-left-color: var(--layer-1-color);
+}
+
 .layer-header {
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--color-card-hover);
@@ -243,6 +251,14 @@
 
 .layer-3 .layer-number {
     background: var(--layer-3-color);
+}
+
+.layer-2 .layer-number {
+    background: var(--layer-2-color);
+}
+
+.layer-1 .layer-number {
+    background: var(--layer-1-color);
 }
 
 .layer-title {
@@ -296,7 +312,6 @@
     transition: width 0.5s ease;
 }
 
-/* ===== FOOTER ===== */
 .footer {
     background: var(--color-primary);
     color: white;

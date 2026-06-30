@@ -3,6 +3,8 @@ import * as presentation from './presentation.js';
 import * as session from './session.js';
 import * as transport from './transport.js';
 import * as network from './network.js';
+import * as enlace from './enlace.js';
+import * as fisica from './fisica.js';
 import { points } from './points.js';
 
 const textInput = document.getElementById('textInput');
@@ -26,11 +28,11 @@ textInput.addEventListener('input', () => {
 });
 
 function clearLayers() {
-    ['layer7', 'layer6', 'layer5', 'layer4', 'layer3'].forEach(id => {
+    ['layer7', 'layer6', 'layer5', 'layer4', 'layer3', 'layer2', 'layer1'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
     });
-    ['layer7Body', 'layer6Body', 'layer5Body', 'layer4Body', 'layer3Body'].forEach(id => {
+    ['layer7Body', 'layer6Body', 'layer5Body', 'layer4Body', 'layer3Body', 'layer2Body', 'layer1Body'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = '';
     });
@@ -63,6 +65,7 @@ async function processPacket(packet) {
     clearLayers();
 
     try {
+        // Camada 7 - Aplicação
         updateFlow(10, '⬇ Camada 7 - Aplicação');
         const appContainer = document.getElementById('layer7Body');
         const layer7 = document.getElementById('layer7');
@@ -86,25 +89,29 @@ async function processPacket(packet) {
         }
         await sleep(300);
 
+        // Camada 6 - Apresentação
         updateFlow(30, '⬇ Camada 6 - Apresentação (JWT)');
         console.log('🔄 Renderizando apresentação...');
         const presentationPacket = await presentation.renderPresentationLayer(packet);
         console.log('✅ Apresentação concluída:', presentationPacket);
         await sleep(300);
 
+        // Camada 5 - Sessão
         updateFlow(50, '⬇ Camada 5 - Sessão');
         console.log('🔄 Renderizando sessão...');
         const sessionPacket = session.renderSessionLayer(presentationPacket);
         console.log('✅ Sessão concluída:', sessionPacket);
         await sleep(300);
 
-        updateFlow(70, '⬇ Camada 4 - Transporte (TCP)');
+        // Camada 4 - Transporte
+        updateFlow(65, '⬇ Camada 4 - Transporte (TCP)');
         console.log('🔄 Renderizando transporte...');
         const transportPacket = transport.renderTransportLayer(sessionPacket);
         console.log('✅ Transporte concluído:', transportPacket);
         await sleep(300);
 
-        updateFlow(90, '⬇ Camada 3 - Rede (Roteamento)');
+        // Camada 3 - Rede
+        updateFlow(80, '⬇ Camada 3 - Rede (Roteamento)');
         console.log('🔄 Renderizando rede...');
 
         const ativos = points.filter(p => p.ativo);
@@ -114,11 +121,26 @@ async function processPacket(packet) {
         const destino = ativos[ativos.length - 1]?.id || 'R64';
         console.log('📍 Origem:', origem, '🎯 Destino:', destino);
 
-        network.renderNetworkLayer(transportPacket, origem, destino, 'dijkstra');
-        console.log('✅ Rede concluída');
-
-        updateFlow(100, '✅ Encapsulamento completo!');
+        const networkPacket = network.renderNetworkLayer(transportPacket, origem, destino, 'dijkstra');
+        console.log('✅ Rede concluída:', networkPacket);
         await sleep(300);
+
+        // Camada 2 - Enlace
+        updateFlow(90, '⬇ Camada 2 - Enlace (Frame)');
+        console.log('🔄 Renderizando enlace...');
+        const frame = enlace.renderEnlaceLayer(networkPacket);
+        console.log('✅ Enlace concluído:', frame);
+        await sleep(300);
+
+        // Camada 1 - Física
+        updateFlow(95, '⬇ Camada 1 - Física (Bits)');
+        console.log('🔄 Renderizando física...');
+        const resultadoFisica = fisica.renderFisicaLayer(frame);
+        console.log('✅ Física concluída:', resultadoFisica);
+        await sleep(300);
+
+        updateFlow(100, '✅ Transmissão completa!');
+        await sleep(500);
         if (flowIndicator) flowIndicator.style.display = 'none';
 
     } catch (error) {

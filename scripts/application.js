@@ -6,17 +6,13 @@ const packetStore = new Map();
 export function detectProtocol(requestText, hasFile) {
     if (!requestText && !hasFile) return null;
 
-    // Se tem arquivo, prioriza FTP
     if (hasFile) return 'file';
 
-    // Limpa e normaliza o texto
     const text = requestText.trim().toLowerCase();
 
-    // 1. Detectar E-mail (contém @)
     if (text.includes('@')) return 'email';
 
-    // 2. Detectar protocolos específicos digitados pelo usuário
-    // (colocado ANTES da detecção de URL para capturar "https" como protocolo)
+
     const protocolKeywords = [
         { keyword: 'tcp', protocol: 'tcp' },
         { keyword: 'udp', protocol: 'udp' },
@@ -32,14 +28,12 @@ export function detectProtocol(requestText, hasFile) {
         { keyword: 'http', protocol: 'http' }
     ];
 
-    // Verifica se o texto é exatamente um protocolo ou começa com ele
     for (const { keyword, protocol } of protocolKeywords) {
         if (text === keyword) {
             return `protocol_${protocol}`;
         }
     }
 
-    // 3. Detectar URL/HTTP (para entradas como "www.google.com")
     if (
         text.startsWith('http://') ||
         text.startsWith('https://') ||
@@ -48,18 +42,15 @@ export function detectProtocol(requestText, hasFile) {
         text.includes('.org') ||
         text.includes('.net') ||
         text.includes('.br') ||
-        // Só considera http/https se não for exatamente o protocolo
         (text.includes('http') && text !== 'http' && text !== 'https')
     ) {
         return 'http';
     }
 
-    // 4. Se nada acima, é uma mensagem de chat
     return 'chat';
 }
 
 export function getProtocolLabel(type) {
-    // Mapeamento para protocolos especiais
     const protocolMap = {
         'protocol_tcp': 'TCP (Transmission Control Protocol)',
         'protocol_udp': 'UDP (User Datagram Protocol)',
